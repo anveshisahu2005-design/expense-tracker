@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Add Entry - Expense Tracker{% endblock %}
+{% block content %}
+<h2>Add Income / Expense</h2>
+<form method="post" class="entry-form">
+  <label>Title
+    <input type="text" name="title" required maxlength="80" placeholder="e.g. Grocery, Salary">
+  </label>
+  <label>Amount (₹)
+    <input type="number" name="amount" required min="0.01" step="0.01" placeholder="0.00">
+  </label>
+  <label>Type
+    <select name="type">
+      <option value="expense">Expense</option>
+      <option value="income">Income</option>
+    </select>
+  </label>
+  <label>Category
+    <select name="category">
+      {% for c in categories %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Date
+    <input type="date" name="date" value="{{ today }}">
+  </label>
+  <button type="submit" class="primary">Save</button>
+</form>
+{% endblock %}
