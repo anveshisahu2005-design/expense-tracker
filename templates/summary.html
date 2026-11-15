@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Summary - Expense Tracker{% endblock %}
+{% block content %}
+<h2>Expense Summary by Category</h2>
+{% if rows %}
+  {% set max_total = rows | map(attribute="total") | max %}
+  {% for r in rows %}
+  <div class="bar-row">
+    <span class="bar-label">{{ r["category"] }}</span>
+    <div class="bar-track">
+      <div class="bar-fill" style="width: {{ ((r["total"] / max_total) * 100) | round(1) }}%"></div>
+    </div>
+    <span class="bar-value">₹{{ "%.2f"|format(r["total"]) }}</span>
+  </div>
+  {% endfor %}
+{% else %}
+<p class="empty">Abhi koi expense nahi hai.</p>
+{% endif %}
+{% endblock %}
