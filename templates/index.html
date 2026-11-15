@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="cards">
+  <div class="card income"><h3>Total Income</h3><p>₹{{ "%.2f"|format(income) }}</p></div>
+  <div class="card expense"><h3>Total Expense</h3><p>₹{{ "%.2f"|format(expense) }}</p></div>
+  <div class="card balance"><h3>Balance</h3><p>₹{{ "%.2f"|format(balance) }}</p></div>
+</section>
+
+<h2>Transactions</h2>
+{% if transactions %}
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Date</th><th>Title</th><th>Category</th><th>Type</th><th>Amount</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for t in transactions %}
+    <tr>
+      <td>{{ t["date"] }}</td>
+      <td>{{ t["title"] }}</td>
+      <td>{{ t["category"] }}</td>
+      <td><span class="tag {{ t['type'] }}">{{ t["type"] }}</span></td>
+      <td>₹{{ "%.2f"|format(t["amount"]) }}</td>
+      <td>
+        <form method="post" action="{{ url_for('delete', txn_id=t['id']) }}"
+              onsubmit="return confirm('Delete this entry?');">
+          <button type="submit" class="del">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">Abhi koi entry nahi hai. <a href="{{ url_for('add') }}">Pehli entry add karo</a>.</p>
+{% endif %}
+{% endblock %}
